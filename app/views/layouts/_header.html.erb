@@ -1,0 +1,9 @@
+<h3>계정</h3>
+<ul>
+  <li>
+    <%= link_to '로그아웃', destroy_user_session_path, data: {
+      turbo_method: :delete,
+      turbo_confirm: '로그아웃 하시겠습니까?'
+    } %>
+  </li>
+</ul>

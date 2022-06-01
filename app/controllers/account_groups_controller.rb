@@ -1,23 +1,7 @@
 # frozen_string_literal: true
 
 class AccountGroupsController < ApplicationController
-  before_action :set_account_group, only: %i[show edit update destroy]
-
-  # GET /account_groups
-  def index
-    @account_groups = AccountGroup.all
-  end
-
-  # GET /account_groups/1
-  def show; end
-
-  # GET /account_groups/new
-  def new
-    @account_group = AccountGroup.new
-  end
-
-  # GET /account_groups/1/edit
-  def edit; end
+  before_action :set_account_group, only: %i[update destroy]
 
   # POST /account_groups
   def create

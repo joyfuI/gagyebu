@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_06_01_132027) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_01_141739) do
   create_table "account_groups", force: :cascade do |t|
     t.integer "user_id", null: false
     t.string "name", null: false
@@ -19,6 +19,25 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_01_132027) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_account_groups_on_user_id"
+  end
+
+  create_table "accounts", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "name", null: false
+    t.integer "account_group_id", null: false
+    t.integer "order"
+    t.boolean "enable", default: true
+    t.datetime "start_date", null: false
+    t.integer "start_balance", default: 0
+    t.integer "account_type", default: 0
+    t.boolean "include", default: true
+    t.boolean "income", default: true
+    t.boolean "expense", default: true
+    t.text "memo"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_group_id"], name: "index_accounts_on_account_group_id"
+    t.index ["user_id"], name: "index_accounts_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -34,4 +53,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_01_132027) do
   end
 
   add_foreign_key "account_groups", "users"
+  add_foreign_key "accounts", "account_groups"
+  add_foreign_key "accounts", "users"
 end

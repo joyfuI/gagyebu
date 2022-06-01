@@ -1,0 +1,29 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  name: MyString
+  account_group: one
+  order: 1
+  enable: false
+  start_date: 2022-06-01 23:17:39
+  start_balance: 1
+  account_type: 1
+  include: false
+  income: false
+  expense: false
+  memo: MyText
+
+two:
+  user: two
+  name: MyString
+  account_group: two
+  order: 1
+  enable: false
+  start_date: 2022-06-01 23:17:39
+  start_balance: 1
+  account_type: 1
+  include: false
+  income: false
+  expense: false
+  memo: MyText

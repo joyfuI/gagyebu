@@ -1,0 +1,63 @@
+<%= form_with(model: account) do |form| %>
+  <% if account.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(account.errors.count, 'error') %> prohibited this account from being saved:</h2>
+      <ul>
+        <% account.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div>
+    <%= form.label :user_id, style: "display: block" %>
+    <%= form.text_field :user_id %>
+  </div>
+  <div>
+    <%= form.label :name, style: "display: block" %>
+    <%= form.text_field :name %>
+  </div>
+  <div>
+    <%= form.label :account_group_id, style: "display: block" %>
+    <%= form.text_field :account_group_id %>
+  </div>
+  <div>
+    <%= form.label :order, style: "display: block" %>
+    <%= form.number_field :order %>
+  </div>
+  <div>
+    <%= form.label :enable, style: "display: block" %>
+    <%= form.check_box :enable %>
+  </div>
+  <div>
+    <%= form.label :start_date, style: "display: block" %>
+    <%= form.datetime_field :start_date %>
+  </div>
+  <div>
+    <%= form.label :start_balance, style: "display: block" %>
+    <%= form.number_field :start_balance %>
+  </div>
+  <div>
+    <%= form.label :account_type, style: "display: block" %>
+    <%= form.number_field :account_type %>
+  </div>
+  <div>
+    <%= form.label :include, style: "display: block" %>
+    <%= form.check_box :include %>
+  </div>
+  <div>
+    <%= form.label :income, style: "display: block" %>
+    <%= form.check_box :income %>
+  </div>
+  <div>
+    <%= form.label :expense, style: "display: block" %>
+    <%= form.check_box :expense %>
+  </div>
+  <div>
+    <%= form.label :memo, style: "display: block" %>
+    <%= form.text_area :memo %>
+  </div>
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

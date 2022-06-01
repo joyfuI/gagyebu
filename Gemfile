@@ -73,3 +73,6 @@ end
 
 # 로그인 기능
 gem 'devise'
+
+# 환경변수 설정
+gem 'dotenv-rails', groups: [:development, :test]

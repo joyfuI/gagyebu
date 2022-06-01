@@ -8,6 +8,9 @@ require 'rails/all'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
+# .env 로드
+Dotenv::Railtie.load
+
 module Gagyebu
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.

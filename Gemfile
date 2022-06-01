@@ -70,3 +70,6 @@ group :test do
   gem 'selenium-webdriver'
   gem 'webdrivers'
 end
+
+# 로그인 기능
+gem 'devise'

@@ -1,63 +1,56 @@
+<% edit ||= false %>
 <%= form_with(model: account) do |form| %>
-  <% if account.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(account.errors.count, 'error') %> prohibited this account from being saved:</h2>
-      <ul>
-        <% account.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
   <div>
-    <%= form.label :user_id, style: "display: block" %>
-    <%= form.text_field :user_id %>
-  </div>
-  <div>
-    <%= form.label :name, style: "display: block" %>
-    <%= form.text_field :name %>
-  </div>
-  <div>
-    <%= form.label :account_group_id, style: "display: block" %>
-    <%= form.text_field :account_group_id %>
-  </div>
-  <div>
-    <%= form.label :order, style: "display: block" %>
-    <%= form.number_field :order %>
-  </div>
-  <div>
-    <%= form.label :enable, style: "display: block" %>
+    <%= form.label :enable, '사용' %>
     <%= form.check_box :enable %>
+    <%= error_messages_for account, :enable %>
   </div>
   <div>
-    <%= form.label :start_date, style: "display: block" %>
+    <%= form.label :account_group_id, '자산그룹' %>
+    <%= form.select :account_group_id, @account_group_options %>
+    <%= error_messages_for account, :account_group_id %>
+  </div>
+  <div>
+    <%= form.label :name, '자산 이름' %>
+    <%= form.text_field :name %>
+    <%= error_messages_for account, :name %>
+  </div>
+  <div>
+    <%= form.label :account_type, '타입' %>
+    <%= form.select :account_type, @account_type_options, {}, disabled: edit %>
+    <%= error_messages_for account, :account_type %>
+  </div>
+  <div>
+    <%= form.label :start_date, '잔액 시작일' %>
     <%= form.datetime_field :start_date %>
+    <%= error_messages_for account, :start_date %>
   </div>
   <div>
-    <%= form.label :start_balance, style: "display: block" %>
+    <%= form.label :start_balance, '시작 잔액' %>
     <%= form.number_field :start_balance %>
+    <%= error_messages_for account, :start_balance %>
   </div>
   <div>
-    <%= form.label :account_type, style: "display: block" %>
-    <%= form.number_field :account_type %>
-  </div>
-  <div>
-    <%= form.label :include, style: "display: block" %>
+    <%= form.label :include, '자산합계 포함' %>
     <%= form.check_box :include %>
+    <%= error_messages_for account, :include %>
   </div>
   <div>
-    <%= form.label :income, style: "display: block" %>
+    <%= form.label :income, '수입 사용' %>
     <%= form.check_box :income %>
+    <%= error_messages_for account, :income %>
   </div>
   <div>
-    <%= form.label :expense, style: "display: block" %>
+    <%= form.label :expense, '지출 사용' %>
     <%= form.check_box :expense %>
+    <%= error_messages_for account, :expense %>
   </div>
   <div>
-    <%= form.label :memo, style: "display: block" %>
+    <%= form.label :memo, '메모' %>
     <%= form.text_area :memo %>
+    <%= error_messages_for account, :memo %>
   </div>
   <div>
-    <%= form.submit %>
+    <%= form.submit '추가' %>
   </div>
 <% end %>

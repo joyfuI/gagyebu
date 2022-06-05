@@ -1,16 +1,17 @@
 # frozen_string_literal: true
 
 class AccountsController < ApplicationController
-  before_action :set_account, only: %i[ show edit update destroy ]
+  before_action :set_account, only: %i[edit update destroy]
   before_action :set_options, only: %i[new edit create update]
 
   # GET /accounts
   def index
-    @accounts = Account.all
+    accounts = Account.where(user: current_user).joins(:account_group)
+    @accounts_enable = accounts.where(enable: true)
+                               .order('"account_groups"."order", "accounts"."order"')
+    @accounts_disable = accounts.where(enable: false)
+                                .order('"account_groups"."order", "accounts"."order"')
   end
-
-  # GET /accounts/1
-  def show; end
 
   # GET /accounts/new
   def new
@@ -25,11 +26,11 @@ class AccountsController < ApplicationController
     @account = Account.new(account_params)
     @account.order = Account.where(user: current_user)
                             .where(account_group_id: account_params[:account_group_id])
-                            .count
+                            .last.order + 1
 
     respond_to do |format|
       if @account.save
-        format.html { redirect_to account_url(@account), notice: 'Account was successfully created.' }
+        format.html { redirect_to accounts_url }
       else
         format.html { render :new, status: :unprocessable_entity }
       end
@@ -40,7 +41,7 @@ class AccountsController < ApplicationController
   def update
     respond_to do |format|
       if @account.update(account_params)
-        format.html { redirect_to account_url(@account), notice: 'Account was successfully updated.' }
+        format.html { redirect_to accounts_url }
       else
         format.html { render :edit, status: :unprocessable_entity }
       end
@@ -66,7 +67,13 @@ class AccountsController < ApplicationController
   def set_options
     account_groups = AccountGroup.where(user: current_user).order(:order)
     @account_group_options = account_groups.map { |account_group| [account_group.name, account_group.id] }
-    @account_type_options = [['일반', 0], ['카드', 1], ['저축', 2], ['대출', 3], ['투자', 4]]
+    @account_type_options = [
+      ['일반', Account.account_types[:general]],
+      ['카드', Account.account_types[:card]],
+      ['저축', Account.account_types[:savings]],
+      ['대출', Account.account_types[:loans]],
+      ['투자', Account.account_types[:invest]]
+    ]
   end
 
   # Only allow a list of trusted parameters through.

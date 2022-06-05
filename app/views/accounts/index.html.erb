@@ -1,10 +1,18 @@
 <h1>자산관리</h1>
-<div id="accounts">
-  <% @accounts.each do |account| %>
-    <%= render account %>
-    <p>
-      <%= link_to 'Show this account', account %>
-    </p>
-  <% end %>
-</div>
+<table id="accounts">
+  <thead>
+    <tr>
+      <th>순서</th>
+      <th>자산그룹</th>
+      <th>자산 이름</th>
+      <th>타입</th>
+      <th>관리</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @accounts_enable.each do |account| %>
+      <%= render account %>
+    <% end %>
+  </tbody>
+</table>
 <%= link_to '자산 추가', new_account_path %>

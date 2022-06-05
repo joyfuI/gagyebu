@@ -1,50 +1,35 @@
-<div id="<%= dom_id account %>">
-  <p>
-    <strong>User:</strong>
-    <%= account.user_id %>
-  </p>
-  <p>
-    <strong>Name:</strong>
-    <%= account.name %>
-  </p>
-  <p>
-    <strong>Account group:</strong>
-    <%= account.account_group_id %>
-  </p>
-  <p>
-    <strong>Order:</strong>
-    <%= account.order %>
-  </p>
-  <p>
-    <strong>Enable:</strong>
-    <%= account.enable %>
-  </p>
-  <p>
-    <strong>Start date:</strong>
-    <%= account.start_date %>
-  </p>
-  <p>
-    <strong>Start balance:</strong>
-    <%= account.start_balance %>
-  </p>
-  <p>
-    <strong>Account type:</strong>
-    <%= account.account_type %>
-  </p>
-  <p>
-    <strong>Include:</strong>
-    <%= account.include %>
-  </p>
-  <p>
-    <strong>Income:</strong>
-    <%= account.income %>
-  </p>
-  <p>
-    <strong>Expense:</strong>
-    <%= account.expense %>
-  </p>
-  <p>
-    <strong>Memo:</strong>
-    <%= account.memo %>
-  </p>
-</div>
+<tr id="<%= dom_id account %>">
+  <td>↑↓</td>
+  <td>
+    <%= account.account_group.name %>
+  </td>
+  <td>
+    <strong>
+      <%= account.name %>
+    </strong>
+    <br>
+    잔액시작일:
+    <%= account.start_date.strftime('%F %H:%M') %>
+    <br>
+    시작잔액:
+    <%= account.start_balance %>원
+    <br>
+    <%= '자산포함' if account.include %>
+    <%= '수입사용' if account.income %>
+    <%= '지출사용' if account.expense %>
+    <p>
+      <%= account.memo %>
+    </p>
+  </td>
+  <td>
+    <%= ['일반', '카드', '저축', '대출', '투자'][account.account_type.to_i] %>
+  </td>
+  <td>
+    <%= button_to '수정', edit_account_path(account), method: :get %>
+    <%= button_to '삭제', account, form: {
+      data: {
+        turbo_confirm: '삭제하시겠습니까?'
+      }
+    }, method: :delete %>
+  </td>
+</tr>

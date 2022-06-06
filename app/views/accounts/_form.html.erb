@@ -50,6 +50,6 @@
     <%= error_messages_for account, :memo %>
   </div>
   <div>
-    <%= form.submit '추가' %>
+    <%= form.submit action_name == 'edit' ? '수정' : '추가' %>
   </div>
 <% end %>

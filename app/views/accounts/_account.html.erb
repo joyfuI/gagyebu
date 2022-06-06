@@ -1,5 +1,9 @@
 <tr id="<%= dom_id account %>">
-  <td>↑↓</td>
+  <td>
+    <%= button_to '↑', up_account_path(account), method: :patch unless first %>
+    <br>
+    <%= button_to '↓', down_account_path(account), method: :patch unless last %>
+  </td>
   <td>
     <%= account.account_group.name %>
   </td>

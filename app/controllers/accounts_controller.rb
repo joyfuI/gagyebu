@@ -1,16 +1,22 @@
 # frozen_string_literal: true
 
 class AccountsController < ApplicationController
-  before_action :set_account, only: %i[edit update destroy]
+  before_action :set_accounts, only: %i[index up down]
+  before_action :set_account, only: %i[edit update destroy up down]
   before_action :set_options, only: %i[new edit create update]
+
+  @@account_types = {
+    general: '일반',
+    card: '카드',
+    savings: '저축',
+    loans: '대출',
+    invest: '투자'
+  }
 
   # GET /accounts
   def index
-    accounts = Account.where(user: current_user).joins(:account_group)
-    @accounts_enable = accounts.where(enable: true)
-                               .order('"account_groups"."order", "accounts"."order"')
-    @accounts_disable = accounts.where(enable: false)
-                                .order('"account_groups"."order", "accounts"."order"')
+    @accounts_enable = @accounts.where(enable: true)
+    @accounts_disable = @accounts.where(enable: false)
   end
 
   # GET /accounts/new
@@ -57,9 +63,48 @@ class AccountsController < ApplicationController
     end
   end
 
+  # PATCH/PUT /accounts/1/up
+  def up
+    accounts = @accounts.where(enable: @account.enable)
+    prev_account = accounts.where('"accounts"."order" < ?', @account.order).last
+    return if prev_account.blank?
+
+    @account.order, prev_account.order = prev_account.order, @account.order
+
+    respond_to do |format|
+      if @account.save && prev_account.save
+        format.html { redirect_to accounts_url }
+      else
+        format.html { render :index, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # PATCH/PUT /accounts/1/down
+  def down
+    accounts = @accounts.where(enable: @account.enable)
+    next_account = accounts.where('"accounts"."order" > ?', @account.order).first
+    return if next_account.blank?
+
+    @account.order, next_account.order = next_account.order, @account.order
+
+    respond_to do |format|
+      if @account.save && next_account.save
+        format.html { redirect_to accounts_url }
+      else
+        format.html { render :index, status: :unprocessable_entity }
+      end
+    end
+  end
+
   private
 
-  # Use callbacks to share common setup or constraints between actions.
+  def set_accounts
+    @accounts = Account.where(user: current_user)
+                       .joins(:account_group)
+                       .order('"account_groups"."order", "accounts"."order"')
+  end
+
   def set_account
     @account = Account.find(params[:id])
   end
@@ -67,16 +112,9 @@ class AccountsController < ApplicationController
   def set_options
     account_groups = AccountGroup.where(user: current_user).order(:order)
     @account_group_options = account_groups.map { |account_group| [account_group.name, account_group.id] }
-    @account_type_options = [
-      ['일반', Account.account_types[:general]],
-      ['카드', Account.account_types[:card]],
-      ['저축', Account.account_types[:savings]],
-      ['대출', Account.account_types[:loans]],
-      ['투자', Account.account_types[:invest]]
-    ]
+    @account_type_options = Account.account_types.to_a.map { |k, v| [@@account_types[k.to_sym], v] }
   end
 
-  # Only allow a list of trusted parameters through.
   def account_params
     params.require(:account)
           .permit(:user_id, :name, :account_group_id, :order, :enable, :start_date, :start_balance, :account_type, :include, :income, :expense, :memo)

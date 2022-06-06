@@ -19,7 +19,7 @@ class AccountGroupsControllerTest < ActionDispatch::IntegrationTest
 
   test 'should create account_group' do
     assert_difference('AccountGroup.count') do
-      post account_groups_url, params: { account_group: { enable: @account_group.enable, name: @account_group.name, order: @account_group.order, user_id: @account_group.user_id } }
+      post account_groups_url, params: { account_group: { name: @account_group.name, order: @account_group.order, user_id: @account_group.user_id } }
     end
 
     assert_redirected_to account_group_url(AccountGroup.last)
@@ -36,7 +36,7 @@ class AccountGroupsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'should update account_group' do
-    patch account_group_url(@account_group), params: { account_group: { enable: @account_group.enable, name: @account_group.name, order: @account_group.order, user_id: @account_group.user_id } }
+    patch account_group_url(@account_group), params: { account_group: { name: @account_group.name, order: @account_group.order, user_id: @account_group.user_id } }
     assert_redirected_to account_group_url(@account_group)
   end
 

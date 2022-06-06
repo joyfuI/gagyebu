@@ -15,7 +15,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_01_141739) do
     t.integer "user_id", null: false
     t.string "name", null: false
     t.integer "order"
-    t.boolean "enable", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_account_groups_on_user_id"

@@ -4,10 +4,8 @@ one:
   user: one
   name: MyString
   order: 1
-  enable: false
 
 two:
   user: two
   name: MyString
   order: 1
-  enable: false

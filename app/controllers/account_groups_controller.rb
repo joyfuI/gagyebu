@@ -43,6 +43,6 @@ class AccountGroupsController < ApplicationController
   end
 
   def account_group_params
-    params.require(:account_group).permit(:user_id, :name, :order, :enable)
+    params.require(:account_group).permit(:user_id, :name, :order)
   end
 end

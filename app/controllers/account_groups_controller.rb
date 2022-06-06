@@ -38,12 +38,10 @@ class AccountGroupsController < ApplicationController
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
   def set_account_group
-    @account_group = AccountGroup.find(params[:id])
+    @account_group = AccountGroup.where(user: current_user).find(params[:id])
   end
 
-  # Only allow a list of trusted parameters through.
   def account_group_params
     params.require(:account_group).permit(:user_id, :name, :order, :enable)
   end

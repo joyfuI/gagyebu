@@ -1,55 +1,59 @@
-<%= form_with(model: account) do |form| %>
-  <div>
-    <%= form.label :enable, '사용' %>
-    <%= form.check_box :enable %>
-    <%= error_messages_for account, :enable %>
-  </div>
-  <div>
-    <%= form.label :account_group_id, '자산그룹' %>
-    <%= form.select :account_group_id, @account_group_options %>
-    <%= error_messages_for account, :account_group_id %>
-  </div>
-  <div>
-    <%= form.label :name, '자산 이름' %>
-    <%= form.text_field :name %>
-    <%= error_messages_for account, :name %>
-  </div>
-  <div>
-    <%= form.label :account_type, '타입' %>
-    <%= form.select :account_type, @account_type_options, {}, disabled: action_name == 'edit' %>
-    <%= error_messages_for account, :account_type %>
-  </div>
-  <div>
-    <%= form.label :start_date, '잔액 시작일' %>
-    <%= form.datetime_field :start_date %>
-    <%= error_messages_for account, :start_date %>
-  </div>
-  <div>
-    <%= form.label :start_balance, '시작 잔액' %>
-    <%= form.number_field :start_balance %>
-    <%= error_messages_for account, :start_balance %>
-  </div>
-  <div>
-    <%= form.label :include, '자산합계 포함' %>
-    <%= form.check_box :include %>
-    <%= error_messages_for account, :include %>
-  </div>
-  <div>
-    <%= form.label :income, '수입 사용' %>
-    <%= form.check_box :income %>
-    <%= error_messages_for account, :income %>
-  </div>
-  <div>
-    <%= form.label :expense, '지출 사용' %>
-    <%= form.check_box :expense %>
-    <%= error_messages_for account, :expense %>
-  </div>
-  <div>
-    <%= form.label :memo, '메모' %>
-    <%= form.text_area :memo %>
-    <%= error_messages_for account, :memo %>
-  </div>
-  <div>
-    <%= form.submit action_name == 'edit' ? '수정' : '추가' %>
-  </div>
-<% end %>
+<div data-controller="account-group">
+  <%= form_with(model: account) do |form| %>
+    <div>
+      <%= form.label :enable, '사용' %>
+      <%= form.check_box :enable %>
+      <%= error_messages_for account, :enable %>
+    </div>
+    <div>
+      <%= form.label :account_group_id, '자산그룹' %>
+      <%= form.select :account_group_id, @account_group_options %>
+      <button type="button" data-action="account-group#dialogOpen">자산그룹 관리</button>
+      <%= error_messages_for account, :account_group_id %>
+    </div>
+    <div>
+      <%= form.label :name, '자산 이름' %>
+      <%= form.text_field :name %>
+      <%= error_messages_for account, :name %>
+    </div>
+    <div>
+      <%= form.label :account_type, '타입' %>
+      <%= form.select :account_type, @account_type_options, {}, disabled: action_name == 'edit' %>
+      <%= error_messages_for account, :account_type %>
+    </div>
+    <div>
+      <%= form.label :start_date, '잔액 시작일' %>
+      <%= form.datetime_field :start_date %>
+      <%= error_messages_for account, :start_date %>
+    </div>
+    <div>
+      <%= form.label :start_balance, '시작 잔액' %>
+      <%= form.number_field :start_balance %>
+      <%= error_messages_for account, :start_balance %>
+    </div>
+    <div>
+      <%= form.label :include, '자산합계 포함' %>
+      <%= form.check_box :include %>
+      <%= error_messages_for account, :include %>
+    </div>
+    <div>
+      <%= form.label :income, '수입 사용' %>
+      <%= form.check_box :income %>
+      <%= error_messages_for account, :income %>
+    </div>
+    <div>
+      <%= form.label :expense, '지출 사용' %>
+      <%= form.check_box :expense %>
+      <%= error_messages_for account, :expense %>
+    </div>
+    <div>
+      <%= form.label :memo, '메모' %>
+      <%= form.text_area :memo %>
+      <%= error_messages_for account, :memo %>
+    </div>
+    <div>
+      <%= form.submit action_name == 'edit' ? '수정' : '추가' %>
+    </div>
+  <% end %>
+  <%= render 'dialog' %>
+</div>

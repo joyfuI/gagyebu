@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 class AccountsController < ApplicationController
-  before_action :set_accounts, only: %i[index up down]
+  before_action :set_accounts, only: %i[index create up down]
   before_action :set_account, only: %i[edit update destroy up down]
+  before_action :set_account_groups, only: %i[new edit]
   before_action :set_options, only: %i[new edit create update]
 
   @@account_types = {
@@ -30,9 +31,8 @@ class AccountsController < ApplicationController
   # POST /accounts
   def create
     @account = Account.new(account_params)
-    @account.order = Account.where(user: current_user)
-                            .where(account_group_id: account_params[:account_group_id])
-                            .last.order + 1
+    @account.order = @accounts.where(account_group_id: account_params[:account_group_id])
+                              .last.order + 1
 
     respond_to do |format|
       if @account.save
@@ -109,9 +109,15 @@ class AccountsController < ApplicationController
     @account = Account.where(user: current_user).find(params[:id])
   end
 
+  def set_account_groups
+    @account_group = AccountGroup.new
+    @account_groups = AccountGroup.where(user: current_user).order(:order)
+    @account_groups_enable = @account_groups.where(enable: true)
+    @account_groups_disable = @account_groups.where(enable: false)
+  end
+
   def set_options
-    account_groups = AccountGroup.where(user: current_user).order(:order)
-    @account_group_options = account_groups.map { |account_group| [account_group.name, account_group.id] }
+    @account_group_options = @account_groups.map { |account_group| [account_group.name, account_group.id] }
     @account_type_options = Account.account_types.to_a.map { |k, v| [@@account_types[k.to_sym], v] }
   end
 

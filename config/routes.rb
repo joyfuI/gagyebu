@@ -9,7 +9,14 @@ Rails.application.routes.draw do
       put :down
     end
   end
-  resources :account_groups, only: %i[create update destroy]
+  resources :account_groups, only: %i[create update destroy] do
+    member do
+      patch :up
+      put :up
+      patch :down
+      put :down
+    end
+  end
   devise_for :users, controllers: { registrations: 'users/registrations' }
 
   root 'home#index'

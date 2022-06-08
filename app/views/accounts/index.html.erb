@@ -1,36 +1,38 @@
 <h1>자산관리</h1>
-<h3>사용</h3>
-<table id="accounts">
-  <thead>
-    <tr>
-      <th>순서</th>
-      <th>자산그룹</th>
-      <th>자산 이름</th>
-      <th>타입</th>
-      <th>관리</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @accounts_enable.each_with_index do |account, i| %>
-      <%= render account, first: i == 0, last: i == @accounts_enable.count - 1 %>
-    <% end %>
-  </tbody>
-</table>
-<h3>미사용</h3>
-<table id="accounts">
-  <thead>
-    <tr>
-      <th>순서</th>
-      <th>자산그룹</th>
-      <th>자산 이름</th>
-      <th>타입</th>
-      <th>관리</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @accounts_disable.each_with_index do |account, i| %>
-      <%= render account, first: i == 0, last: i == @accounts_disable.count - 1 %>
-    <% end %>
-  </tbody>
-</table>
+<%= turbo_frame_tag 'accounts' do %>
+  <h3>사용</h3>
+  <table id="accounts">
+    <thead>
+      <tr>
+        <th>순서</th>
+        <th>자산그룹</th>
+        <th>자산 이름</th>
+        <th>타입</th>
+        <th>관리</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @accounts_enable.each_with_index do |account, i| %>
+        <%= render account, first: i == 0, last: i == @accounts_enable.count - 1 %>
+      <% end %>
+    </tbody>
+  </table>
+  <h3>미사용</h3>
+  <table id="accounts">
+    <thead>
+      <tr>
+        <th>순서</th>
+        <th>자산그룹</th>
+        <th>자산 이름</th>
+        <th>타입</th>
+        <th>관리</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @accounts_disable.each_with_index do |account, i| %>
+        <%= render account, first: i == 0, last: i == @accounts_disable.count - 1 %>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
 <%= link_to '자산 추가', new_account_path %>

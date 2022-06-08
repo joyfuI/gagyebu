@@ -112,8 +112,6 @@ class AccountsController < ApplicationController
   def set_account_groups
     @account_group = AccountGroup.new
     @account_groups = AccountGroup.where(user: current_user).order(:order)
-    @account_groups_enable = @account_groups.where(enable: true)
-    @account_groups_disable = @account_groups.where(enable: false)
   end
 
   def set_options

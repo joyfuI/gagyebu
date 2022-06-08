@@ -1,12 +1,11 @@
 <dialog data-account-group-target="dialog">
   <h1>자산그룹 관리</h1>
-  <%= turbo_frame_tag @account_group do %>
+  <%= turbo_frame_tag 'account_groups' do %>
     <%= form_with(model: @account_group) do |form| %>
       <%= form.label :name, '자산그룹 이름' %>
       <%= form.text_field :name %>
       <%= form.submit '추가' %>
     <% end %>
-    <h3>사용</h3>
     <table id="account_groups">
       <thead>
         <tr>
@@ -16,25 +15,8 @@
         </tr>
       </thead>
       <tbody>
-        <% @account_groups_enable.each_with_index do |account_groups, i| %>
-          <%= render account_groups, first: i == 0, last: i == @account_groups_enable.count - 1 %>
-        <% end %>
-      </tbody>
-    </table>
-    <h3>미사용</h3>
-    <table id="accounts">
-      <thead>
-        <tr>
-          <th>순서</th>
-          <th>자산그룹</th>
-          <th>자산 이름</th>
-          <th>타입</th>
-          <th>관리</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @account_groups_disable.each_with_index do |account_groups, i| %>
-          <%= render account_groups, first: i == 0, last: i == @account_groups_disable.count - 1 %>
+        <% @account_groups.each_with_index do |account_group, i| %>
+          <%= render account_group, first: i == 0, last: i == @account_groups.count - 1 %>
         <% end %>
       </tbody>
     </table>

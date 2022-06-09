@@ -21,12 +21,5 @@ module Users
         end
       end
     end
-
-    # DELETE /resource
-    def destroy
-      Account.destroy_by(user: current_user)
-      AccountGroup.destroy_by(user: current_user)
-      super
-    end
   end
 end

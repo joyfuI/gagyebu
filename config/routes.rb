@@ -17,6 +17,11 @@ Rails.application.routes.draw do
       put :down
     end
   end
+
+  devise_scope :user do
+    # Redirests signing out users back to sign-in
+    get 'users', to: 'devise/sessions#new'
+  end
   devise_for :users, controllers: { registrations: 'users/registrations' }
 
   root 'home#index'

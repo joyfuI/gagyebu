@@ -3,7 +3,6 @@
 class AccountsController < ApplicationController
   before_action :set_accounts, only: %i[index create up down]
   before_action :set_account, only: %i[edit update destroy up down]
-  before_action :set_account_groups, only: %i[new edit]
   before_action :set_options, only: %i[new edit create update]
 
   @@account_types = {
@@ -31,26 +30,20 @@ class AccountsController < ApplicationController
   # POST /accounts
   def create
     @account = Account.new(account_params)
-    @account.order = @accounts.where(account_group_id: account_params[:account_group_id])
-                              .last.order + 1
+    @account.order = (@accounts.where(account_group_id: account_params[:account_group_id])
+                               .last&.order || -1) + 1
+    @account.save
 
     respond_to do |format|
-      if @account.save
-        format.html { redirect_to accounts_url }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-      end
+      format.html { redirect_to accounts_url }
     end
   end
 
   # PATCH/PUT /accounts/1
   def update
+    @account.update(account_params)
     respond_to do |format|
-      if @account.update(account_params)
-        format.html { redirect_to accounts_url }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-      end
+      format.html { redirect_to accounts_url }
     end
   end
 
@@ -70,13 +63,10 @@ class AccountsController < ApplicationController
     return if prev_account.blank?
 
     @account.order, prev_account.order = prev_account.order, @account.order
+    @account.save && prev_account.save
 
     respond_to do |format|
-      if @account.save && prev_account.save
-        format.html { redirect_to accounts_url }
-      else
-        format.html { render :index, status: :unprocessable_entity }
-      end
+      format.html { redirect_to accounts_url }
     end
   end
 
@@ -87,13 +77,10 @@ class AccountsController < ApplicationController
     return if next_account.blank?
 
     @account.order, next_account.order = next_account.order, @account.order
+    @account.save && next_account.save
 
     respond_to do |format|
-      if @account.save && next_account.save
-        format.html { redirect_to accounts_url }
-      else
-        format.html { render :index, status: :unprocessable_entity }
-      end
+      format.html { redirect_to accounts_url }
     end
   end
 
@@ -115,6 +102,7 @@ class AccountsController < ApplicationController
   end
 
   def set_options
+    set_account_groups
     @account_group_options = @account_groups.map { |account_group| [account_group.name, account_group.id] }
     @account_type_options = Account.account_types.to_a.map { |k, v| [@@account_types[k.to_sym], v] }
   end

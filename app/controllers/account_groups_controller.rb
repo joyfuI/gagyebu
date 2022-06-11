@@ -7,7 +7,7 @@ class AccountGroupsController < ApplicationController
   # POST /account_groups
   def create
     @account_group = AccountGroup.new(account_group_params)
-    @account_group.order = @account_groups.last.order + 1
+    @account_group.order = (@account_groups.last&.order || -1) + 1
     @account_group.save
 
     respond_to do |format|

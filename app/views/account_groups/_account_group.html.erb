@@ -10,6 +10,9 @@
     <% end %>
   </td>
   <td>
+    <%= account_group.accounts.count %>
+  </td>
+  <td>
     <button type="submit" form="<%= dom_id account_group, 'form' %>">수정</button>
     <%= button_to '삭제', account_group, disabled: !account_group.accounts.blank?, form: {
       data: {

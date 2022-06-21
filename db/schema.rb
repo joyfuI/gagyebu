@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_06_01_141739) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_20_141424) do
   create_table "account_groups", force: :cascade do |t|
     t.integer "user_id", null: false
     t.string "name", null: false
@@ -39,6 +39,20 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_01_141739) do
     t.index ["user_id"], name: "index_accounts_on_user_id"
   end
 
+  create_table "card_issuers", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "name", null: false
+    t.integer "order"
+    t.integer "payment_date", null: false
+    t.date "payment_start", null: false
+    t.date "payment_end", null: false
+    t.date "cash_service_start", null: false
+    t.date "cash_service_end", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_card_issuers_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -54,4 +68,5 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_01_141739) do
   add_foreign_key "account_groups", "users"
   add_foreign_key "accounts", "account_groups"
   add_foreign_key "accounts", "users"
+  add_foreign_key "card_issuers", "users"
 end

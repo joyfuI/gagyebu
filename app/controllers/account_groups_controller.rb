@@ -8,18 +8,24 @@ class AccountGroupsController < ApplicationController
   def create
     @account_group = AccountGroup.new(account_group_params)
     @account_group.order = (@account_groups.last&.order || -1) + 1
-    @account_group.save
 
     respond_to do |format|
-      format.html { redirect_to new_account_url }
+      if @account_group.save
+        format.html { redirect_to new_account_url }
+      else
+        format.html { redirect_to new_account_url, status: :unprocessable_entity }
+      end
     end
   end
 
   # PATCH/PUT /account_groups/1
   def update
-    @account_group.update(account_group_params)
     respond_to do |format|
-      format.html { redirect_to new_account_url }
+      if @account_group.update(account_group_params)
+        format.html { redirect_to new_account_url }
+      else
+        format.html { redirect_to new_account_url, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -38,10 +44,13 @@ class AccountGroupsController < ApplicationController
     return if prev_account_group.blank?
 
     @account_group.order, prev_account_group.order = prev_account_group.order, @account_group.order
-    @account_group.save && prev_account_group.save
 
     respond_to do |format|
-      format.html { redirect_to new_account_url }
+      if @account_group.save && prev_account_group.save
+        format.html { redirect_to new_account_url }
+      else
+        format.html { redirect_to new_account_url, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -51,10 +60,13 @@ class AccountGroupsController < ApplicationController
     return if next_account_group.blank?
 
     @account_group.order, next_account_group.order = next_account_group.order, @account_group.order
-    @account_group.save && next_account_group.save
 
     respond_to do |format|
-      format.html { redirect_to new_account_url }
+      if @account_group.save && next_account_group.save
+        format.html { redirect_to new_account_url }
+      else
+        format.html { redirect_to new_account_url, status: :unprocessable_entity }
+      end
     end
   end
 

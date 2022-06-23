@@ -29,7 +29,7 @@
     <%= ['일반', '카드', '저축', '대출', '투자'][account.account_type.to_i] %>
   </td>
   <td>
-    <%= button_to '수정', edit_account_path(account), method: :get %>
+    <%= button_to '수정', edit_account_path(account), method: :get, data: { turbo_frame: '_top' } %>
     <%= button_to '삭제', account, form: {
       data: {
         turbo_confirm: '삭제하시겠습니까?'

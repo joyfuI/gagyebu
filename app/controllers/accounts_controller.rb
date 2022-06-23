@@ -32,18 +32,24 @@ class AccountsController < ApplicationController
     @account = Account.new(account_params)
     @account.order = (@accounts.where(account_group_id: account_params[:account_group_id])
                                .last&.order || -1) + 1
-    @account.save
 
     respond_to do |format|
-      format.html { redirect_to accounts_url }
+      if @account.save
+        format.html { redirect_to accounts_url }
+      else
+        format.html { redirect_to accounts_url, status: :unprocessable_entity }
+      end
     end
   end
 
   # PATCH/PUT /accounts/1
   def update
-    @account.update(account_params)
     respond_to do |format|
-      format.html { redirect_to accounts_url }
+      if @account.update(account_params)
+        format.html { redirect_to accounts_url }
+      else
+        format.html { redirect_to accounts_url, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -63,10 +69,13 @@ class AccountsController < ApplicationController
     return if prev_account.blank?
 
     @account.order, prev_account.order = prev_account.order, @account.order
-    @account.save && prev_account.save
 
     respond_to do |format|
-      format.html { redirect_to accounts_url }
+      if @account.save && prev_account.save
+        format.html { redirect_to accounts_url }
+      else
+        format.html { redirect_to accounts_url, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -77,10 +86,13 @@ class AccountsController < ApplicationController
     return if next_account.blank?
 
     @account.order, next_account.order = next_account.order, @account.order
-    @account.save && next_account.save
 
     respond_to do |format|
-      format.html { redirect_to accounts_url }
+      if @account.save && next_account.save
+        format.html { redirect_to accounts_url }
+      else
+        format.html { redirect_to accounts_url, status: :unprocessable_entity }
+      end
     end
   end
 
